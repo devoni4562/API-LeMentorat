@@ -1,8 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule ^$ public/index.php [L]
-    RewriteRule ^(.*)$ public/index.php [L]
-    setEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
-    setEnvIf Content-Type "(.*)" HTTP_CONTENT_TYPE=$1
-    setEnvIf ACCEPT "(.*)" HTTP_ACCEPT=$1
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
