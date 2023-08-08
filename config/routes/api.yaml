@@ -1,0 +1,9 @@
+api_users_get:
+  path: /api/users
+  controller: App\Controller\Api\UserController::index
+  methods: GET
+api_users_post:
+  path: /api/users
+  controller: App\Controller\Api\UserController::create
+  methods: POST
+# Définissez d'autres routes pour les opérations CRUD (GET, PUT, DELETE) selon vos besoins
