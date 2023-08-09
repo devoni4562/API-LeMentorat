@@ -29,10 +29,10 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/new', methods: ['POST'])]
-public function createNewCategory(CategorieRepository $categoryRepository, Request $request): JsonResponse
+public function createNewCategory(CategorieRepository $categoryRepository): JsonResponse
     {
         $newCategory = new Category();
-        $newCategory->setLibelle($request->get('libelle'));
+        $newCategory->setLibelle('séminaire');
 
         $categoryRepository->save($newCategory, true);
 
