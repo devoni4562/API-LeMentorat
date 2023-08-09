@@ -2,9 +2,11 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Category;
 use App\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/category')]
@@ -24,5 +26,17 @@ class CategoryController extends AbstractController
 
 
         return new JsonResponse($data);
+    }
+
+    #[Route('/new', methods: ['POST'])]
+public function createNewCategory(CategorieRepository $categoryRepository, Request $request): JsonResponse
+    {
+        $newCategory = new Category();
+        $newCategory->setLibelle($request->get('libelle'));
+
+        $categoryRepository->save($newCategory, true);
+
+        return new JsonResponse(['category'=>['id'=>$newCategory->getId(), 'libelle'=>$newCategory->getLibelle()]]);
+
     }
 }
