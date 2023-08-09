@@ -28,7 +28,7 @@ class CategoryController extends AbstractController
         return new JsonResponse($data);
     }
 
-    #[Route('/new', methods: ['POST'])]
+    #[Route('/new', methods: ['GET'])]
 public function createNewCategory(CategorieRepository $categoryRepository): JsonResponse
     {
         $newCategory = new Category();
