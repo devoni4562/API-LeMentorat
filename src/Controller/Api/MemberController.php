@@ -5,9 +5,10 @@ namespace App\Controller\Api;
 use App\Entity\Member;
 use App\Repository\MemberRepository;
 use App\Repository\RoleRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -92,5 +93,27 @@ class MemberController extends AbstractController
 
         return new JsonResponse($data);
     }
+
+    #[Route('/new')]
+public function createNewMember(RoleRepository $roleRepository, MemberRepository $memberRepository, Request $request, UserPasswordHasherInterface $passwordHasher): JsonResponse
+{
+    $newMember = new Member();
+    $plainPassword = 'Mentorat38300!';
+    $hashedPassword = $passwordHasher->hashPassword($newMember, $plainPassword);
+
+    $newMember->setJob($roleRepository->find(1))
+        ->setEmail('puppomaxence2@gmail.com')
+        ->setRoles(["ROLE_ADMIN"])
+        ->setPassword($hashedPassword)
+        ->setLastName('Puppo')
+        ->setFirstName('Maxence')
+        ->setPseudo('MaxenceP')
+        ->setAvatar('maxence.jpg')
+        ->setDescription('Co-fondateur et responsable du succès client');
+
+    $memberRepository->save($newMember, true);
+
+    return new JsonResponse(['member' => $newMember]);
+}
 
 }

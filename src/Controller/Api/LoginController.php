@@ -31,7 +31,7 @@ class LoginController extends AbstractController
                 'message' => 'Utilisateur non trouvé.',
             ];
         } else {
-            if ($hasher->isPasswordValid($user, $formData->password)) {
+            if ($hasher->isPasswordValid($user, $formData->password) && in_array('ROLE_ADMIN', $user->getRoles(), true)) {
                 $token = $JWTManager->create($user);
                 $admin = [
                     'id' => $user->getId(),
