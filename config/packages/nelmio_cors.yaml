@@ -1,7 +1,9 @@
 nelmio_cors:
     defaults:
         origin_regex: true
-        allow_origin: ['*']
+        allow_origin:
+            - '^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$'
+            - 'https://lementorat.netlify.app/'
         allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
         allow_headers: ['Content-Type', 'Authorization', 'Origin']
         expose_headers: ['Link']
