@@ -37,7 +37,7 @@
 
         }
 
-        #[Route('/member/new')]
+        #[Route('/member/new', methods: ['POST'])]
         public function createNewMember(FileUploader $fileUploader, RoleRepository $roleRepository, MemberRepository $memberRepository, Request $request, UserPasswordHasherInterface $passwordHasher, MembersService $membersService): JsonResponse
         {
             $newMember = new Member();
@@ -51,11 +51,11 @@
             }
 
             $newMember
-                ->setJob($roleRepository->find(intval($request->get('jobId'))))
-                ->setEmail($request->get('email'))
-                ->setLastName($request->get('lastname'))
                 ->setFirstName($request->get('firstname'))
+                ->setLastName($request->get('lastname'))
                 ->setPseudo($request->get('pseudo'))
+                ->setEmail($request->get('email'))
+                ->setJob($roleRepository->find(intval($request->get('jobId'))))
                 ->setDescription($request->get('description'));
 
             if ($request->files->get('avatar') !== null) {
