@@ -51,7 +51,7 @@
             }
 
             $newMember
-                ->setJob($roleRepository->find($request->get('jobId')))
+                ->setJob($roleRepository->find(intval($request->get('jobId'))))
                 ->setEmail($request->get('email'))
                 ->setLastName($request->get('lastname'))
                 ->setFirstName($request->get('firstname'))
