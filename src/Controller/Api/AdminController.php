@@ -3,10 +3,12 @@
     namespace App\Controller\Api;
 
     use App\Entity\Member;
+    use App\Entity\Role;
     use App\Repository\MemberRepository;
     use App\Repository\RoleRepository;
     use App\Service\FileUploader;
     use App\Service\MembersService;
+    use App\Service\RolesService;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +38,9 @@
             return new JsonResponse($data);
 
         }
+
+
+//--------------------------------- MEMBER -----------------------------------------//
 
         #[Route('/member/new', methods: ['POST'])]
         public function createNewMember(FileUploader $fileUploader, RoleRepository $roleRepository, MemberRepository $memberRepository, Request $request, UserPasswordHasherInterface $passwordHasher, MembersService $membersService): JsonResponse
@@ -68,5 +73,19 @@
             $data = $membersService->oneMember($newMember);
 
             return new JsonResponse($data);
+        }
+
+
+//-----------------------------ROLE-------------------------------------------------//
+        #[Route('/new', methods: ['POST'])]
+        public function createNewRole(RoleRepository $roleRepository, Request $request, RolesService $rolesService): JsonResponse
+        {
+            $newRole = new Role();
+            $newRole->setName($request->get('name'));
+
+            $roleRepository->save($newRole, true);
+
+            return new JsonResponse($rolesService->oneRole($newRole));
+
         }
     }
