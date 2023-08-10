@@ -47,7 +47,7 @@
         {
             $newMember = new Member();
 
-            if ($request->get('isAdmin')) {
+            if ($request->get('isAdmin') !== null) {
                 $plainPassword = $request->get('password');
                 $hashedPassword = $passwordHasher->hashPassword($newMember, $plainPassword);
                 $newMember
