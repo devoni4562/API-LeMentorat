@@ -1,42 +1,20 @@
 <?php
 
-namespace App\Controller\Api;
+    namespace App\Controller\Api;
 
-use App\Entity\Category;
-use App\Repository\CategorieRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+    use App\Repository\CategorieRepository;
+    use App\Service\CategoryService;
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HttpFoundation\JsonResponse;
+    use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/category')]
-class CategoryController extends AbstractController
-{
-    #[Route('/', methods: ['GET'])]
-    public function getAllCategory(CategorieRepository $categorieRepository): JsonResponse
+    #[Route('/api/category')]
+    class CategoryController extends AbstractController
     {
-        $categories = $categorieRepository->findAll();
-        $data = [];
-        foreach ($categories as $category){
-            $data[]=[
-                'id' => $category->getId(),
-                'wording' => $category->getLibelle()
-                ];
+        #[Route('/', methods: ['GET'])]
+        public function getAllCategory(CategorieRepository $categorieRepository, CategoryService $categoryService): JsonResponse
+        {
+            $categories = $categorieRepository->findAll();
+            return new JsonResponse($categoryService->arrayCategories($categories));
         }
-
-
-        return new JsonResponse($data);
     }
-
-    #[Route('/new', methods: ['GET'])]
-public function createNewCategory(CategorieRepository $categoryRepository, Request $request): JsonResponse
-    {
-        $newCategory = new Category();
-        $newCategory->setLibelle($request->get('libelle'));
-
-        $categoryRepository->save($newCategory, true);
-
-        return new JsonResponse(['category'=>['id'=>$newCategory->getId(), 'libelle'=>$newCategory->getLibelle()]]);
-
-    }
-}
