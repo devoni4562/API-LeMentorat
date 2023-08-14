@@ -17,7 +17,6 @@
         public function login(Request $request, UserPasswordHasherInterface $hasher, MemberRepository $memberRepository, JWTTokenManagerInterface $JWTManager): JsonResponse
         {
             $formData = json_decode($request->getContent());
-            dd($formData);
             $user = $memberRepository->findByEmail($formData->username);
 
 
