@@ -189,7 +189,9 @@
         public function createCategory(Request $request, CategoryService $categoryService, CategorieRepository $categorieRepository): JsonResponse
         {
             $newCategory = new Category();
-            $newCategory->setLibelle($request->get('libelle'));
+            $formData = json_decode($request->getContent());
+
+            $newCategory->setLibelle($formData->libelle);
 
             $categorieRepository->save($newCategory, true);
 
