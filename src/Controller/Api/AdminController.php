@@ -85,7 +85,7 @@
 
 
 //-----------------------------ROLE-------------------------------------------------//
-        #[Route('role/new', methods: ['POST'])]
+        #[Route('/role/new', methods: ['POST'])]
         public function createNewRole(RoleRepository $roleRepository, Request $request, RolesService $rolesService): JsonResponse
         {
             $newRole = new Role();
@@ -99,7 +99,7 @@
 
 
 //---------------------------Article---------------------------------------------//
-        #[Route('article/new', methods: ['POST'])]
+        #[Route('/article/new', methods: ['POST'])]
         public function newArticle(Request $request, FileUploader $fileUploader, ArticleRepository $articleRepository, CategorieRepository $categorieRepository, MemberRepository $memberRepository, ParagraphRepository $paragraphRepository): JsonResponse
         {
             $formData = $request->request->all();
@@ -185,7 +185,7 @@
         }
 
 //----------------------------- Category --------------------------------//
-        #[Route('category/new', methods: ['POST'])]
+        #[Route('/category/new', methods: ['POST'])]
         public function createCategory(Request $request, CategoryService $categoryService, CategorieRepository $categorieRepository): JsonResponse
         {
             $newCategory = new Category();
