@@ -3,7 +3,7 @@
     namespace App\Controller\Api;
 
     use App\Repository\MemberRepository;
-    use App\Service\MembersService;
+    use App\Service\MemberService;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +13,7 @@
     {
 
         #[Route("/staff", methods: ['GET'])]
-        public function getStaff(MemberRepository $memberRepository, MembersService $membersService): JsonResponse
+        public function getStaff(MemberRepository $memberRepository, MemberService $membersService): JsonResponse
         {
 
             $staff = $memberRepository->findAll();
@@ -23,7 +23,7 @@
 
         //----------------------------------------------MENTORS-----------------------------------------------------------//
         #[Route('/mentors', methods: ['GET'])]
-        public function getMentors(MemberRepository $memberRepository, MembersService $membersService): JsonResponse
+        public function getMentors(MemberRepository $memberRepository, MemberService $membersService): JsonResponse
         {
 
             $mentors = $memberRepository->getByJobId(2);
@@ -35,7 +35,7 @@
         //---------------------------------------------WITNESSES----------------------------------------------------------//
 
         #[Route('/witnesses', methods: ['GET'])]
-        public function getWitnesses(MemberRepository $memberRepository, MembersService $membersService): JsonResponse
+        public function getWitnesses(MemberRepository $memberRepository, MemberService $membersService): JsonResponse
         {
             $witnesses = $memberRepository->getByJobId(3);
             $data = $membersService->arrayMembers($witnesses);

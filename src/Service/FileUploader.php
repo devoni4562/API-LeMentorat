@@ -1,4 +1,5 @@
 <?php
+
     namespace App\Service;
 
     use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -12,11 +13,11 @@
         public function upload(UploadedFile $file, string $uploadDirectory, string $title): string
         {
 
-            $fileName = str_replace(' ', '_', $title).'.'.$file->guessExtension();
+            $fileName = str_replace(' ', '_', $title) . '.' . $file->guessExtension();
 
             try {
                 $file->move($uploadDirectory, $fileName);
-            }catch (FileException $e){
+            } catch (FileException $e) {
                 throw new \Exception('error moving uploaded file');
             }
 

@@ -14,7 +14,7 @@
     use App\Repository\RoleRepository;
     use App\Service\CategoryService;
     use App\Service\FileUploader;
-    use App\Service\MembersService;
+    use App\Service\MemberService;
     use App\Service\RolesService;
     use DateTime;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +31,7 @@
 
 
         #[Route("/get_all_admin"), ]
-        public function getAllAdmin(MemberRepository $memberRepository, MembersService $membersService): JsonResponse
+        public function getAllAdmin(MemberRepository $memberRepository, MemberService $membersService): JsonResponse
         {
 
             $admins = [];
@@ -51,7 +51,7 @@
 //--------------------------------- MEMBER -----------------------------------------//
 
         #[Route('/member/new', methods: ['POST'])]
-        public function createNewMember(FileUploader $fileUploader, RoleRepository $roleRepository, MemberRepository $memberRepository, Request $request, UserPasswordHasherInterface $passwordHasher, MembersService $membersService): JsonResponse
+        public function createNewMember(FileUploader $fileUploader, RoleRepository $roleRepository, MemberRepository $memberRepository, Request $request, UserPasswordHasherInterface $passwordHasher, MemberService $membersService): JsonResponse
         {
             $newMember = new Member();
 

@@ -4,10 +4,10 @@
 
     use App\Entity\Member;
 
-    class MembersService
+    class MemberService
     {
 
-        public function arrayMembers(array $members)
+        public function arrayMembers(array $members): array
         {
             $data = [];
             foreach ($members as $member) {
@@ -28,7 +28,7 @@
             return $data;
         }
 
-        public function oneMember(Member $member)
+        public function oneMember(Member $member): array
         {
             $data[] = [
                 'lastname' => $member->getLastName(),
