@@ -8,7 +8,9 @@
     use App\Repository\CategorieRepository;
     use App\Repository\MemberRepository;
     use App\Repository\ParagraphRepository;
+    use App\Service\CategoryService;
     use App\Service\FileUploader;
+    use App\Service\MemberService;
     use DateTime;
     use Exception;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,36 +23,22 @@
     class ArticleController extends AbstractController
     {
         #[Route('/', methods: ['GET'])]
-        public function getArticles(ArticleRepository $articleRepository): JsonResponse
+        public function getArticles(ArticleRepository $articleRepository, MemberService $membersService, CategoryService $categoryService): JsonResponse
         {
             $articles = $articleRepository->findAll();
 
             $response = [];
             foreach ($articles as $article) {
+                $writer = $membersService->oneMember($article->getWritter());
+                $category = $categoryService->oneCategory($article->getCategory());
                 $response[] = [
                     'id' => $article->getId(),
-                    'writer' => [
-                        'id' => $article->getWritter()->getId(),
-                        'lastname' => $article->getWritter()->getLastName(),
-                        'description' => $article->getWritter()->getDescription(),
-                        'avatar' => $article->getWritter()->getAvatar(),
-                        'pseudo' => $article->getWritter()->getPseudo(),
-                        'firstname' => $article->getWritter()->getFirstName(),
-                        'job' => [
-                            'id' => $article->getWritter()->getJob()->getId(),
-                            'name' => $article->getWritter()->getJob()->getName()
-                        ],
-                        'role' => $article->getWritter()->getRoles(),
-                        'email' => $article->getWritter()->getEmail(),
-                    ],
+                    'writer' => $writer,
                     'video' => $article->getVideo(),
                     'image' => $article->getImage(),
                     'date' => $article->getDate()->format('Y-m-d'),
                     'summary' => $article->getSummary(),
-                    'category' => [
-                        'id' => $article->getCategory()->getId(),
-                        'wording' => $article->getCategory()->getLibelle()
-                    ],
+                    'category' => $category,
                     'title' => $article->getTitle(),
                 ];
             }
