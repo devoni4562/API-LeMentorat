@@ -3,6 +3,7 @@
     namespace App\Controller\Api;
 
     use App\Repository\ArticleRepository;
+    use App\Service\ArticleService;
     use App\Service\CategoryService;
     use App\Service\MemberService;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,6 +89,13 @@
             ];
 
             return new JsonResponse($response);
+        }
+
+        #[Route('/IdAndTitle', methods: ['GET'])]
+        public function getIdAndTitleForAllArticle(ArticleRepository $articleRepository, ArticleService $articleService): JsonResponse
+        {
+            $articles = $articleRepository->findAll();
+            return new JsonResponse($articleService->idAndTitleOfArticles($articles));
         }
 
     }

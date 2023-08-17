@@ -34,7 +34,19 @@
             return $data;
         }
 
-        public function newArticle(CategorieRepository $categorieRepository, ArticleRepository $articleRepository, MemberRepository $memberRepository, Request $request, string $directory, FileUploader $fileUploader, ParagraphRepository $paragraphRepository)
+        public function idAndTitleOfArticles(array $articles)
+        {
+            $data = [];
+            foreach ($articles as $article) {
+                $data[] = [
+                    'id' => $article->getId(),
+                    'title' => $article->getTitle()
+                ];
+            }
+            return $data;
+        }
+
+        public function newArticle(CategorieRepository $categorieRepository, ArticleRepository $articleRepository, MemberRepository $memberRepository, Request $request, string $directory, FileService $fileService, ParagraphRepository $paragraphRepository)
         {
             $formData = $request->request->all();
 
@@ -47,7 +59,7 @@
                 ->setVideo($formData['video']);
 
             if ($request->files->get('image') !== null) {
-                $newArticle->setImage($fileUploader->upload($request->files->get('image'), $directory . str_ireplace(' ', '_', $newArticle->getTitle()) . '/', $formData['title']));
+                $newArticle->setImage($fileService->upload($request->files->get('image'), $directory . str_ireplace(' ', '_', $newArticle->getTitle()) . '/', $formData['title']));
             }
 
             $articleRepository->save($newArticle, true);
@@ -67,7 +79,7 @@
                         ->setLinkText($paragraph['paragraphLinkText']);
 
                     if ($request->files->get('imageParagraph' . $index) !== null) {
-                        $newParagraph->setPicture($fileUploader->upload($request->files->get('imageParagraph' . $index), $directory . str_ireplace(' ', '_', $newArticle->getTitle()) . '/paragraphs/', 'paragraph' . $index));
+                        $newParagraph->setPicture($fileService->upload($request->files->get('imageParagraph' . $index), $directory . str_ireplace(' ', '_', $newArticle->getTitle()) . '/paragraphs/', 'paragraph' . $index));
                     }
 
                     $paragraphRepository->save($newParagraph, true);
@@ -76,4 +88,18 @@
             }
             return $newArticle;
         }
+
+        public function deleteArticle(Request $request, int $id, ArticleRepository $articleRepository, ParagraphRepository $paragraphRepository, string $directory, FileService $fileService)
+        {
+            $articleToDelete = $articleRepository->find($id);
+
+            $fileService->deleteDirectory($directory . str_ireplace(' ', '_', $articleToDelete->getTitle()));
+
+            foreach ($articleToDelete->getParagraphs() as $paragraph) {
+                $paragraphRepository->remove($paragraph, true);
+            }
+
+            $articleRepository->remove($articleToDelete, true);
+        }
+
     }

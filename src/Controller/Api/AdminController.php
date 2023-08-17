@@ -12,7 +12,7 @@
     use App\Repository\RoleRepository;
     use App\Service\ArticleService;
     use App\Service\CategoryService;
-    use App\Service\FileUploader;
+    use App\Service\FileService;
     use App\Service\MemberService;
     use App\Service\RolesService;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,7 +49,7 @@
 //--------------------------------- MEMBER -----------------------------------------//
 
         #[Route('/member/new', methods: ['POST'])]
-        public function createNewMember(FileUploader $fileUploader, RoleRepository $roleRepository, MemberRepository $memberRepository, Request $request, UserPasswordHasherInterface $passwordHasher, MemberService $membersService): JsonResponse
+        public function createNewMember(FileService $fileUploader, RoleRepository $roleRepository, MemberRepository $memberRepository, Request $request, UserPasswordHasherInterface $passwordHasher, MemberService $membersService): JsonResponse
         {
             $newMember = new Member();
 
@@ -98,7 +98,7 @@
 
 //---------------------------Article---------------------------------------------//
         #[Route('/article/new', methods: ['POST'])]
-        public function newArticle(Request $request, ArticleService $articleService, CategorieRepository $categorieRepository, MemberRepository $memberRepository, FileUploader $fileUploader, ArticleRepository $articleRepository, ParagraphRepository $paragraphRepository): JsonResponse
+        public function newArticle(Request $request, ArticleService $articleService, CategorieRepository $categorieRepository, MemberRepository $memberRepository, FileService $fileUploader, ArticleRepository $articleRepository, ParagraphRepository $paragraphRepository): JsonResponse
         {
             $result = $articleService->newArticle($categorieRepository, $articleRepository, $memberRepository, $request, $this->getParameter('article_img_dir'), $fileUploader, $paragraphRepository);
             if ($result !== null) {
@@ -111,6 +111,14 @@
                 ];
             }
             return new  JsonResponse($response);
+        }
+
+        #[Route('/article/delete/{id}', methods: ['DELETE'])]
+        public function removeArticleById(int $id, Request $request, ArticleService $articleService, ArticleRepository $articleRepository, ParagraphRepository $paragraphRepository, FileService $fileService): JsonResponse
+        {
+            $articleService->deleteArticle($request, $id, $articleRepository, $paragraphRepository, $this->getParameter('article_img_dir'), $fileService);
+
+            return new JsonResponse(['message' => 'suppression réussie']);
         }
 
 //----------------------------- Category --------------------------------//
