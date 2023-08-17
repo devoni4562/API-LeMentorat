@@ -114,7 +114,7 @@
         }
 
         #[Route('/article/delete/{id}', methods: ['DELETE'])]
-        public function removeArticleById(int $id, Request $request, ArticleService $articleService, ArticleRepository $articleRepository, ParagraphRepository $paragraphRepository, FileService $fileService): JsonResponse
+        public function deleteArticleById(int $id, Request $request, ArticleService $articleService, ArticleRepository $articleRepository, ParagraphRepository $paragraphRepository, FileService $fileService): JsonResponse
         {
             $articleService->deleteArticle($request, $id, $articleRepository, $paragraphRepository, $this->getParameter('article_img_dir'), $fileService);
 
@@ -135,4 +135,11 @@
             return new JsonResponse($categoryService->oneCategory($newCategory));
         }
 
+        #[Route('/category/delete/{id}', methods: ['DELETE'])]
+        public function deleteCategoryById(int $id, Request $request, CategorieRepository $categorieRepository, CategoryService $categoryService): JsonResponse
+        {
+            $categoryService->deleteCategory($id, $request, $categorieRepository);
+
+            return new JsonResponse(['message' => 'suppression réussie']);
+        }
     }
