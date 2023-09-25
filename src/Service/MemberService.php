@@ -13,6 +13,7 @@
             $data = [];
             foreach ($members as $member) {
                 $data[] = [
+                    'id' => $member->getId(),
                     'lastname' => $member->getLastName(),
                     'description' => $member->getDescription(),
                     'avatar' => $member->getAvatar(),
