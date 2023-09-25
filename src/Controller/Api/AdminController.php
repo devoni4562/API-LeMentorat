@@ -6,11 +6,13 @@
     use App\Entity\Member;
     use App\Entity\Role;
     use App\Repository\ArticleRepository;
+    use App\Repository\CaseStudyRepository;
     use App\Repository\CategorieRepository;
     use App\Repository\MemberRepository;
     use App\Repository\ParagraphRepository;
     use App\Repository\RoleRepository;
     use App\Service\ArticleService;
+    use App\Service\CaseStudyService;
     use App\Service\CategoryService;
     use App\Service\FileService;
     use App\Service\MemberService;
@@ -141,5 +143,13 @@
             $categoryService->deleteCategory($id, $request, $categorieRepository);
 
             return new JsonResponse(['message' => 'suppression réussie']);
+        }
+
+        //--------------------CASE STUDY---------------------------------------//
+        #[Route('/case_study/new', methods: ['POST'])]
+        public function createCase(CaseStudyRepository $caseStudyRepository, CaseStudyService $caseStudyService, Request $request): JsonResponse
+        {
+            $newCase = $caseStudyService->newCaseStudy($request, $caseStudyRepository);
+            return new JsonResponse($caseStudyService->oneCaseReturn($newCase));
         }
     }
