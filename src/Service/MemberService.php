@@ -3,6 +3,7 @@
     namespace App\Service;
 
     use App\Entity\Member;
+    use App\Repository\MemberRepository;
 
     class MemberService
     {
@@ -45,5 +46,11 @@
             ];
 
             return $data;
+        }
+
+        public function deleteMember(int $id, MemberRepository $memberRepository): void
+        {
+            $memberToDelete = $memberRepository->find($id);
+            $memberRepository->remove($memberToDelete, true);
         }
     }

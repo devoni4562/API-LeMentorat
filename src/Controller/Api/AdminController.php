@@ -83,6 +83,14 @@
             return new JsonResponse($data);
         }
 
+        #[Route('/member/delete/{id}', methods: ['DELETE'])]
+        public function deleteMemberById(int $id, MemberService $memberService, MemberRepository $memberRepository): JsonResponse
+        {
+            $memberService->deleteMember($id, $memberRepository);
+
+            return new JsonResponse(['message' => 'suppréssion du membre réussie']);
+        }
+
 
 //-----------------------------ROLE-------------------------------------------------//
         #[Route('/role/new', methods: ['POST'])]
@@ -138,9 +146,9 @@
         }
 
         #[Route('/category/delete/{id}', methods: ['DELETE'])]
-        public function deleteCategoryById(int $id, Request $request, CategorieRepository $categorieRepository, CategoryService $categoryService): JsonResponse
+        public function deleteCategoryById(int $id, CategorieRepository $categorieRepository, CategoryService $categoryService): JsonResponse
         {
-            $categoryService->deleteCategory($id, $request, $categorieRepository);
+            $categoryService->deleteCategory($id, $categorieRepository);
 
             return new JsonResponse(['message' => 'suppression réussie']);
         }

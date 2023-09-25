@@ -4,7 +4,6 @@
 
     use App\Entity\Category;
     use App\Repository\CategorieRepository;
-    use Symfony\Component\HttpFoundation\Request;
 
     class CategoryService
     {
@@ -24,7 +23,7 @@
             return $data = ['id' => $category->getId(), 'libelle' => $category->getLibelle()];
         }
 
-        public function deleteCategory(int $id, Request $request, CategorieRepository $categorieRepository)
+        public function deleteCategory(int $id, CategorieRepository $categorieRepository)
         {
             $categoryToDelete = $categorieRepository->find($id);
             $categorieRepository->remove($categoryToDelete, true);
