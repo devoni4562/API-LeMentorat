@@ -11,12 +11,12 @@
 
         public function newCaseStudy(Request $request, CaseStudyRepository $caseStudyRepository): CaseStudy
         {
-            $formData = $request->request->all();
+            $formData = json_decode($request->getContent());
 
             $newCase = new CaseStudy();
-            $newCase->setTitle($formData['title'])
-                ->setLink($formData['link'])
-                ->setHtmlId('youtube-' . str_ireplace(' ', '-', strtolower($formData['title'])));
+            $newCase->setTitle($formData->title)
+                ->setLink($formData->link)
+                ->setHtmlId('youtube-' . str_ireplace(' ', '-', strtolower($formData->title)));
             $caseStudyRepository->save($newCase, true);
 
             return $newCase;
