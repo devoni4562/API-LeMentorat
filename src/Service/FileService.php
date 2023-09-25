@@ -22,7 +22,7 @@
 
                 $file->move($uploadDirectory, $fileName);
             } catch (FileException $e) {
-                throw new Exception('error moving uploaded file');
+                throw new Exception('error moving uploaded file:', $e);
             }
 
             return $fileName;
