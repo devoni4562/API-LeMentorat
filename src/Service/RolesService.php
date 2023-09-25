@@ -3,6 +3,8 @@
     namespace App\Service;
 
     use App\Entity\Role;
+    use App\Repository\RoleRepository;
+    use Symfony\Component\HttpFoundation\Request;
 
     class RolesService
     {
@@ -26,6 +28,18 @@
                 'name' => $role->getName()
             ];
             return $data;
+        }
+
+        public function newJob(Request $request, RoleRepository $roleRepository)
+        {
+            $formData = json_decode($request->getContent());
+
+            $newRole = new Role();
+            $newRole->setName($formData->name);
+
+            $roleRepository->save($newRole, true);
+
+            return $newRole;
         }
 
     }

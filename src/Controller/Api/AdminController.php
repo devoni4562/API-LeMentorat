@@ -4,7 +4,6 @@
 
     use App\Entity\Category;
     use App\Entity\Member;
-    use App\Entity\Role;
     use App\Repository\ArticleRepository;
     use App\Repository\CaseStudyRepository;
     use App\Repository\CategorieRepository;
@@ -96,10 +95,7 @@
         #[Route('/job/new', methods: ['POST'])]
         public function createNewRole(RoleRepository $roleRepository, Request $request, RolesService $rolesService): JsonResponse
         {
-            $newRole = new Role();
-            $newRole->setName($request->get('name'));
-
-            $roleRepository->save($newRole, true);
+            $newRole = $rolesService->newJob($request, $roleRepository);
 
             return new JsonResponse($rolesService->oneRole($newRole));
 
