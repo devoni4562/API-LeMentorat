@@ -93,7 +93,7 @@
 
 
 //-----------------------------ROLE-------------------------------------------------//
-        #[Route('/role/new', methods: ['POST'])]
+        #[Route('/job/new', methods: ['POST'])]
         public function createNewRole(RoleRepository $roleRepository, Request $request, RolesService $rolesService): JsonResponse
         {
             $newRole = new Role();
