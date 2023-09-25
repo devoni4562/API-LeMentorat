@@ -16,9 +16,10 @@
         public function upload(UploadedFile $file, string $uploadDirectory, string $title): string
         {
 
-            $fileName = str_replace(' ', '_', $title) . '.' . $file->guessExtension();
+            $fileName = $title;
 
             try {
+
                 $file->move($uploadDirectory, $fileName);
             } catch (FileException $e) {
                 throw new Exception('error moving uploaded file');
