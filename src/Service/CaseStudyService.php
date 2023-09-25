@@ -30,7 +30,7 @@
                 'htmlId' => $caseStudy->getHtmlId()];
         }
 
-        public function manyCaseReturn(CaseStudy $cases): array
+        public function manyCaseReturn(array $cases): array
         {
             $data = [];
             foreach ($cases as $case) {
