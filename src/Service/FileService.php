@@ -16,7 +16,7 @@
         public function upload(UploadedFile $file, string $uploadDirectory, string $title): string
         {
 
-            $fileName = $title;
+            $fileName = str_replace(' ', '_', $title) . '.' . $file->guessExtension();
 
             try {
 

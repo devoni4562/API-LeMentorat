@@ -16,6 +16,7 @@
     use App\Service\FileService;
     use App\Service\MemberService;
     use App\Service\RolesService;
+    use Psr\Log\LoggerInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,12 @@
     class AdminController extends AbstractController
     {
 
+        private $logger;
+
+        public function __construct(LoggerInterface $logger)
+        {
+            $this->logger = $logger;
+        }
 
         #[Route("/get_all_admin"), ]
         public function getAllAdmin(MemberRepository $memberRepository, MemberService $membersService): JsonResponse
@@ -71,6 +78,7 @@
                 ->setDescription($request->get('description'));
 
             if ($request->files->get('avatar') !== null) {
+                $this->logger->info($request->files->get('avatar'));
                 $newMember->setAvatar($fileUploader->upload($request->files->get('avatar'), $this->getParameter('avatar_img_dir') . str_ireplace(' ', '_', $newMember->getJob()->getName()) . '/' . $newMember->getEmail() . '/', $newMember->getPseudo()));
             }
 
