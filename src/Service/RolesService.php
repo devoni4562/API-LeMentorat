@@ -42,4 +42,10 @@
             return $newRole;
         }
 
+        public function deleteRole(int $id, RoleRepository $roleRepository): void
+        {
+            $roleToDelete = $roleRepository->find($id);
+            $roleRepository->remove($roleToDelete, true);
+        }
+
     }

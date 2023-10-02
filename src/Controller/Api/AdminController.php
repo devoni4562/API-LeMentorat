@@ -95,7 +95,7 @@
         {
             $memberService->deleteMember($id, $memberRepository);
 
-            return new JsonResponse(['message' => 'suppréssion du membre réussie']);
+            return new JsonResponse(['message' => 'suppression du membre réussie']);
         }
 
 
@@ -107,6 +107,14 @@
 
             return new JsonResponse($rolesService->oneRole($newRole));
 
+        }
+
+        #[Route('/job/delete/{id}', methods: ['DELETE'])]
+        public function deleteRoleById(int $id, RoleRepository $roleRepository, RolesService $rolesService): JsonResponse
+        {
+            $rolesService->deleteRole($id, $roleRepository);
+
+            return new  JsonResponse(['message' => 'suppression du job réussie']);
         }
 
 
