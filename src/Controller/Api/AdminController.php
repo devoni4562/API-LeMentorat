@@ -29,30 +29,12 @@
     class AdminController extends AbstractController
     {
 
-        private $logger;
+        private LoggerInterface $logger;
 
         public function __construct(LoggerInterface $logger)
         {
             $this->logger = $logger;
         }
-
-        #[Route("/get_all_admin"), ]
-        public function getAllAdmin(MemberRepository $memberRepository, MemberService $membersService): JsonResponse
-        {
-
-            $admins = [];
-            foreach ($memberRepository->findAll() as $member) {
-                if (in_array('ROLE_ADMIN', $member->getRoles(), true)) {
-
-                    $admins[] = $member;
-                }
-            }
-            $data = $membersService->arrayMembers($admins);
-
-            return new JsonResponse($data);
-
-        }
-
 
 //--------------------------------- MEMBER -----------------------------------------//
 
@@ -165,7 +147,7 @@
             return new JsonResponse(['message' => 'suppression réussie']);
         }
 
-        //--------------------CASE STUDY---------------------------------------//
+//------------------------------CASE STUDY---------------------------------------//
         #[Route('/case_study/new', methods: ['POST'])]
         public function createCase(CaseStudyRepository $caseStudyRepository, CaseStudyService $caseStudyService, Request $request): JsonResponse
         {
@@ -180,4 +162,17 @@
 
             return new JsonResponse(['message' => 'suppression réussie']);
         }
+
+
+//---------------------------LIVE CONFERENCE---------------------------------------//
+
+        #[Route('/live-conference/update', methods: ['POST'])]
+        public function updateLiveconferenceLink(Request $request, FileService $fileService)
+        {
+            $newUrl = $request->get('link');
+            $fileService->updateLiveConferenceLink($newUrl);
+
+            return new JsonResponse(['message' => 'modification réussie']);
+        }
+
     }

@@ -39,4 +39,9 @@
                 echo $exception;
             }
         }
+
+        public function updateLiveConferenceLink(string $newLink): void
+        {
+            file_put_contents('public/res/txt/conference_subscribe_link.txt', $newLink);
+        }
     }
