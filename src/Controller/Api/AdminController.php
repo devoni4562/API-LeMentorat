@@ -172,4 +172,12 @@
             $newCase = $caseStudyService->newCaseStudy($request, $caseStudyRepository);
             return new JsonResponse($caseStudyService->oneCaseReturn($newCase));
         }
+
+        #[Route('/case_study/delete/{id}', methods: ['DELETE'])]
+        public function deleteCaseById(int $id, CaseStudyRepository $caseStudyRepository, CaseStudyService $caseStudyService): JsonResponse
+        {
+            $caseStudyService->deleteCase($id, $caseStudyRepository);
+
+            return new JsonResponse(['message' => 'suppression réussie']);
+        }
     }

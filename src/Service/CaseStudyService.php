@@ -45,4 +45,10 @@
             return $data;
         }
 
+        public function deleteCase(int $id, CaseStudyRepository $caseStudyRepository)
+        {
+            $caseToDelete = $caseStudyRepository->find($id);
+            $caseStudyRepository->remove($caseToDelete, true);
+        }
+
     }
