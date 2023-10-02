@@ -40,8 +40,8 @@
             }
         }
 
-        public function updateLiveConferenceLink(string $newLink): void
+        public function updateLiveConferenceLink(string $path, string $newLink): void
         {
-            file_put_contents('public/res/txt/conference_subscribe_link.txt', $newLink);
+            file_put_contents($path, $newLink);
         }
     }

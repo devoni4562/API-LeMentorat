@@ -169,8 +169,9 @@
         #[Route('/live-conference/update', methods: ['POST'])]
         public function updateLiveconferenceLink(Request $request, FileService $fileService)
         {
+            $path = $this->getParameter('kernel.project_dir') . '/public/res/txt/conference_subscribe_link.txt';
             $newUrl = $request->get('link');
-            $fileService->updateLiveConferenceLink($newUrl);
+            $fileService->updateLiveConferenceLink($path, $newUrl);
 
             return new JsonResponse(['message' => 'modification réussie']);
         }
