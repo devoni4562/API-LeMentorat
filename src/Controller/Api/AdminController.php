@@ -170,7 +170,8 @@
         public function updateLiveconferenceLink(Request $request, FileService $fileService)
         {
             $path = $this->getParameter('kernel.project_dir') . '/public/res/txt/conference_subscribe_link.txt';
-            $newUrl = $request->get('link');
+            $data = json_decode($request->getContent());
+            $newUrl = $data->link;
             $fileService->updateLiveConferenceLink($path, $newUrl);
 
             return new JsonResponse(['message' => 'modification réussie']);
