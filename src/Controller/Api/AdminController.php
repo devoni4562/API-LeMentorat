@@ -172,9 +172,27 @@
             $path = $this->getParameter('kernel.project_dir') . '/public/res/txt/conference_subscribe_link.txt';
             $data = json_decode($request->getContent());
             $newUrl = $data->link;
-            $fileService->updateLiveConferenceLink($path, $newUrl);
+            $fileService->writeTxtFile($path, $newUrl);
 
             return new JsonResponse(['message' => 'modification réussie']);
+        }
+
+//----------------------------BUSINESS COFFEE OWNER ------------------------------//
+
+        #[Route('/business-coffee-owner/update', methods: ['POST'])]
+        public function updateBusinessCoffeeInfo(Request $request, FileService $fileService)
+        {
+            $path = $this->getParameter('kernel.project_dir') . '/public/res/txt/coffee_subscribe_info.txt';
+            $data = json_decode($request->getContent());
+            $newDate = $data->date;
+            $newPlace = $data->place;
+            $newLink = $data->link;
+
+            $newInfos = $fileService->coffeeInfoFormatted($newDate, $newPlace, $newLink);
+            $fileService->writeTxtFile($path, $newInfos);
+
+            return new JsonResponse(['message' => 'modification réussie']);
+
         }
 
     }

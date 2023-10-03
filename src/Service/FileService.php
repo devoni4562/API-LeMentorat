@@ -40,8 +40,18 @@
             }
         }
 
-        public function updateLiveConferenceLink(string $path, string $newLink): void
+        public function writeTxtFile(string $path, string $newLink): void
         {
             file_put_contents($path, $newLink);
+        }
+
+        public function coffeeInfoFormatted(string $date, string $place, string $link)
+        {
+            $formattedInfos = "Date : $date" . PHP_EOL;
+            $formattedInfos .= "Place : $place" . PHP_EOL;
+            $formattedInfos .= "Link : $link";
+
+            return $formattedInfos;
+
         }
     }
