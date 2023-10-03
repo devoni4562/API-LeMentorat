@@ -30,7 +30,7 @@
             return $data;
         }
 
-        public function newJob(Request $request, RoleRepository $roleRepository)
+        public function newJob(Request $request, RoleRepository $roleRepository): Role
         {
             $formData = json_decode($request->getContent());
 
@@ -42,13 +42,18 @@
             return $newRole;
         }
 
-        public function updateJob(Request $request, int $id, RoleRepository $roleRepository)
+        public function updateJob(Request $request, int $id, RoleRepository $roleRepository, FileService $fileService, string $directory): ?Role
         {
             $formData = json_decode($request->getContent());
             $roleToUpdate = $roleRepository->find($id);
+            $oldDirectory = $directory . str_ireplace(' ', '_', $roleToUpdate->getName());
+
             $roleToUpdate->setName($formData->name);
 
             $roleRepository->save($roleToUpdate, true);
+
+            $newDirectory = $directory . str_ireplace(' ', '_', $roleToUpdate->getName());
+            $fileService->renameDirectory($oldDirectory, $newDirectory);
 
             return $roleToUpdate;
         }

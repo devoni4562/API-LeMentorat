@@ -40,6 +40,11 @@
             }
         }
 
+        public function renameDirectory(string $oldName, string $newName)
+        {
+            rename($oldName, $newName);
+        }
+
         public function writeTxtFile(string $path, string $newLink): void
         {
             file_put_contents($path, $newLink);
