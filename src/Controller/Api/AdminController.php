@@ -92,9 +92,11 @@
         }
 
         #[Route('/job/update/{id}', methods: ['POST'])]
-        public function updateRoleById(int $id, Request $request, RoleRepository $roleRepository, RolesService $rolesService)
+        public function updateRoleById(int $id, Request $request, RoleRepository $roleRepository, RolesService $rolesService, FileService $fileService): JsonResponse
         {
-            $roleToUpdate = $rolesService->updateJob($request, $id, $roleRepository);
+
+            $directory = $this->getParameter('avatar_img_dir');
+            $roleToUpdate = $rolesService->updateJob($request, $id, $roleRepository, $fileService, $directory);
 
             return new JsonResponse($rolesService->oneRole($roleToUpdate));
         }
