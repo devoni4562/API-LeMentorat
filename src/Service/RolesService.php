@@ -42,7 +42,18 @@
             return $newRole;
         }
 
-        public function deleteRole(int $id, RoleRepository $roleRepository): void
+        public function updateJob(Request $request, int $id, RoleRepository $roleRepository)
+        {
+            $formData = json_decode($request->getContent());
+            $roleToUpdate = $roleRepository->find($id);
+            $roleToUpdate->setName($formData->name);
+
+            $roleRepository->save($roleToUpdate, true);
+
+            return $roleToUpdate;
+        }
+
+        public function deleteJob(int $id, RoleRepository $roleRepository): void
         {
             $roleToDelete = $roleRepository->find($id);
             $roleRepository->remove($roleToDelete, true);

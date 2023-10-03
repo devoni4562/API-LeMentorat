@@ -91,10 +91,18 @@
 
         }
 
+        #[Route('/job/update/{id}', methods: ['POST'])]
+        public function updateRoleById(int $id, Request $request, RoleRepository $roleRepository, RolesService $rolesService)
+        {
+            $roleToUpdate = $rolesService->updateJob($request, $id, $roleRepository);
+
+            return new JsonResponse($rolesService->oneRole($roleToUpdate));
+        }
+
         #[Route('/job/delete/{id}', methods: ['DELETE'])]
         public function deleteRoleById(int $id, RoleRepository $roleRepository, RolesService $rolesService): JsonResponse
         {
-            $rolesService->deleteRole($id, $roleRepository);
+            $rolesService->deleteJob($id, $roleRepository);
 
             return new  JsonResponse(['message' => 'suppression du job réussie']);
         }
