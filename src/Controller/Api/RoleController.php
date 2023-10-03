@@ -30,4 +30,11 @@
             return new JsonResponse(['role' => ['id' => $newRole->getId(), 'name' => $newRole->getName()]]);
 
         }
+
+        #[Route('/{id}', methods: ['GET'])]
+        public function getOneRole(int $id, RoleRepository $roleRepository, RolesService $rolesService): JsonResponse
+        {
+            $roleToReturn = $roleRepository->find($id);
+            return $this->json($rolesService->oneRole($roleToReturn));
+        }
     }
