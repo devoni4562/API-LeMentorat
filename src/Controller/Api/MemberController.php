@@ -21,6 +21,13 @@
             return new JsonResponse($data);
         }
 
+        #[Route("/{id}", methods: ['GET'])]
+        public function getMemberById(int $id, MemberRepository $memberRepository, MemberService $memberService): JsonResponse
+        {
+            $member = $memberRepository->find($id);
+            return new JsonResponse($memberService->oneMember($member));
+        }
+
         //----------------------------------------------MENTORS-----------------------------------------------------------//
         #[Route('/mentors', methods: ['GET'])]
         public function getMentors(MemberRepository $memberRepository, MemberService $membersService): JsonResponse
